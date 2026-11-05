@@ -79,7 +79,8 @@
       font-size: 1.1rem; display: grid; place-items: center;
     }
     .icon-btn:hover { background: var(--bg); }
-    #menuToggle { display: none; }
+    .menu-toggle { display: none; }
+    #app { min-height: 100vh; display: flex; flex-direction: column; }
 
     /* ---------- Conteúdo / Secções (páginas da SPA) ---------- */
     main {
@@ -87,8 +88,7 @@
       width: 100%; max-width: 1100px;
       margin: 0 auto; padding: 40px 16px;
     }
-    .page { display: none; animation: fadeIn .4s ease; }
-    .page.active { display: block; }
+    .page { animation: fadeIn .4s ease; }
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(12px); }
       to   { opacity: 1; transform: none; }
@@ -112,6 +112,7 @@
       transition: background .2s, transform .2s;
     }
     .btn:hover { background: var(--primary-dark); transform: translateY(-2px); }
+    .btn.block { width: 100%; margin-top: 16px; text-align: center; }
     .btn.outline { background: transparent; color: var(--primary); border: 2px solid var(--primary); }
     .btn.outline:hover { background: var(--primary); color: #fff; }
 
@@ -121,6 +122,7 @@
       min-height: 60vh;
     }
     .hero p { color: var(--muted); font-size: 1.15rem; margin: 16px 0 28px; max-width: 560px; }
+    .hero p.hello { margin: 0; color: var(--primary); font-weight: 600; font-size: 1rem; }
     .hero p.role { margin: 6px 0 0; font-size: 1.25rem; color: var(--text); font-weight: 600; }
     .hero .actions { display: flex; flex-wrap: wrap; gap: 12px; }
     .avatar {
@@ -182,6 +184,7 @@
       width: 100%; max-width: 520px; max-height: 90vh; overflow-y: auto;
       position: relative;
     }
+    .modal-emoji { font-size: 3rem; }
     .modal-close { position: absolute; top: 12px; right: 12px; }
     .modal-box p { color: var(--muted); margin-top: 8px; }
     form { display: grid; gap: 12px; margin-top: 16px; }
@@ -221,7 +224,7 @@
 
     /* ---------- Responsivo ---------- */
     @media (max-width: 800px) {
-      #menuToggle { display: grid; }
+      .menu-toggle { display: grid; }
       .nav-links {
         position: absolute; top: var(--header-h); left: 0; right: 0;
         flex-direction: column; padding: 10px 16px;
@@ -239,411 +242,424 @@
 </head>
 <body>
 
-  <!-- ===================== CABEÇALHO ===================== -->
-  <header>
-    <nav class="nav" aria-label="Navegação principal">
-      <a href="#inicio" class="logo">Murilo<span>.</span>CV</a>
-      <ul class="nav-links" id="navLinks">
-        <li><a href="#inicio">Início</a></li>
-        <li><a href="#quem-sou">Quem Sou Eu?</a></li>
-        <li><a href="#o-que-faco">O que faço?</a></li>
-        <li><a href="#hobbies">Hobbies</a></li>
-      </ul>
-      <div class="nav-actions">
-        <button class="icon-btn" id="themeToggle" aria-label="Alternar tema claro/escuro" title="Alternar tema">🌙</button>
-        <button class="icon-btn" id="menuToggle" aria-label="Abrir menu" aria-expanded="false">☰</button>
-      </div>
-    </nav>
-  </header>
+  <!-- Ponto de montagem da aplicação Vue -->
+  <div id="app"></div>
+  <noscript><p style="padding:24px;text-align:center;">Esta aplicação precisa de JavaScript ativo para funcionar.</p></noscript>
 
-  <main>
-    <!-- ===================== INÍCIO ===================== -->
-    <section id="inicio" class="page">
-      <div class="hero">
-        <div>
-          <p style="margin:0;color:var(--primary);font-weight:600;">Olá, eu sou</p>
-          <h1>Murilo Beathm</h1>
-          <p class="role">Software Engineer · Backend, Automação &amp; IA</p>
-          <p>Desenvolvo APIs REST em Python/Django, ambientes Docker e servidores MCP para agentes de IA — com uma base sólida em QA e testes de performance que garante software fiável e escalável.</p>
-          <div class="actions">
-            <a href="#quem-sou" class="btn">Conhecer-me</a>
-            <button class="btn outline" data-modal="contactModal">Contactar</button>
-          </div>
-        </div>
-        <div class="avatar" aria-hidden="true">MB</div>
-      </div>
-    </section>
+  <!-- ===================== FRAMEWORK: Vue 3 + Vue Router 4 (CDN) ===================== -->
+  <script src="https://unpkg.com/vue@3.4.38/dist/vue.global.prod.js"></script>
+  <script src="https://unpkg.com/vue-router@4.4.3/dist/vue-router.global.prod.js"></script>
 
-    <!-- ===================== QUEM SOU EU? ===================== -->
-    <section id="quem-sou" class="page">
-      <h2>Quem Sou Eu?</h2>
-      <p class="subtitle">Um pouco sobre mim, o meu percurso e a minha formação.</p>
-
-      <div class="about">
-        <div class="card">
-          <h3>Sobre mim</h3>
-          <p>Sou Software Engineer focado em desenvolvimento backend, automação e integração de Inteligência Artificial. Tenho experiência na construção de APIs REST em Python/Django, ambientes Docker e servidores MCP (Model Context Protocol) para agentes de IA.</p>
-          <p>Antes de chegar ao desenvolvimento, construí um percurso sólido em Quality Assurance — testes automatizados, testes de API e testes de performance — o que me dá uma visão rigorosa sobre fiabilidade, escalabilidade e qualidade de software.</p>
-
-          <h3 class="section-title">Experiência profissional</h3>
-          <div class="timeline">
-            <div class="timeline-item">
-              <span class="date">Janeiro 2026 – Presente</span>
-              <h3>Software Engineer · DevOps &amp; AI Integration</h3>
-              <span class="company">Noesis · @NOS SGPS</span>
-              <ul>
-                <li>Desenvolvimento de APIs REST com Python e Django para integrar sistemas e suportar fluxos de automação internos.</li>
-                <li>Construção e deploy de servidores MCP ligados ao Dify, permitindo <em>tool-calling</em> a agentes de IA.</li>
-                <li>Containerização com Docker e gestão de pipelines CI/CD com Jenkins.</li>
-                <li>Automação de fluxos de dados e processos de negócio em SAP, em colaboração com equipas de desenvolvimento e QA.</li>
-              </ul>
-            </div>
-            <div class="timeline-item">
-              <span class="date">Março 2025 – Dezembro 2025</span>
-              <h3>Automation Tester</h3>
-              <span class="company">Capgemini</span>
-              <ul>
-                <li>Desenvolvimento e manutenção de frameworks de testes automatizados em Java, Selenium e Cucumber (Page Object Pattern).</li>
-                <li>Cenários de teste UI end-to-end, garantindo estabilidade e compatibilidade entre browsers.</li>
-                <li>Validação de APIs com REST Assured e de bases de dados com SQL.</li>
-                <li>Integração dos testes automatizados nas suites de regressão, aumentando cobertura e eficiência.</li>
-              </ul>
-            </div>
-            <div class="timeline-item">
-              <span class="date">Outubro 2023 – Fevereiro 2025</span>
-              <h3>Performance Tester</h3>
-              <span class="company">Capgemini</span>
-              <ul>
-                <li>Desenho e execução de testes de carga e stress com Apache JMeter para uma aplicação crítica do setor público.</li>
-                <li>Monitorização de performance através de dashboards Grafana.</li>
-                <li>Identificação de bottlenecks (memory leaks, problemas de threads) com VisualVM.</li>
-                <li>Otimização de tempos de resposta sob carga de pico, em conjunto com as equipas de desenvolvimento.</li>
-              </ul>
-            </div>
-            <div class="timeline-item">
-              <span class="date">Abril 2023 – Setembro 2023</span>
-              <h3>Trainee QA Analyst</h3>
-              <span class="company">Capgemini</span>
-              <ul>
-                <li>Testes manuais e automatizados com Selenium IDE, Robot Framework e Python.</li>
-                <li>Melhoria de scripts de regressão, reduzindo o tempo de execução e aumentando a cobertura.</li>
-                <li>Participação na melhoria dos processos de QA.</li>
-              </ul>
-            </div>
-          </div>
-
-          <h3 class="section-title">Formação</h3>
-          <div class="timeline">
-            <div class="timeline-item">
-              <span class="date">2026 – 2028</span>
-              <h3>Mestrado em Engenharia Informática e Tecnologia Web</h3>
-              <span class="company">Universidade de Trás-os-Montes e Alto Douro (UTAD) · PT</span>
-            </div>
-            <div class="timeline-item">
-              <span class="date">2024 – 2026</span>
-              <h3>Licenciatura em Análise e Desenvolvimento de Sistemas</h3>
-              <span class="company">Uninter · BR</span>
-            </div>
-            <div class="timeline-item">
-              <span class="date">2021 – 2022</span>
-              <h3>Formação em TI</h3>
-              <span class="company">Rumos — IT Training &amp; Consulting Services · PT</span>
-            </div>
-          </div>
-        </div>
-
-        <aside class="card">
-          <h3>Dados pessoais</h3>
-          <ul class="facts">
-            <li><strong>Nome</strong> <span>Murilo Beathm</span></li>
-            <li><strong>Função</strong> <span>Software Engineer</span></li>
-            <li><strong>Localização</strong> <span>Portugal</span></li>
-            <li><strong>Área</strong> <span>Backend, Automação &amp; IA</span></li>
-          </ul>
-
-          <h3 class="section-title">Idiomas</h3>
-          <ul class="facts">
-            <li><strong>Português</strong> <span>Nativo</span></li>
-            <li><strong>Inglês</strong> <span>B2</span></li>
-          </ul>
-
-          <h3 class="section-title">Certificações</h3>
-          <ul class="facts">
-            <li><span>ISTQB Certified Tester Foundation Level</span></li>
-            <li><span>Scrum Foundation — CertiProf</span></li>
-          </ul>
-          <button class="btn" style="width:100%;margin-top:16px;" data-modal="contactModal">Enviar mensagem</button>
-        </aside>
-      </div>
-    </section>
-
-    <!-- ===================== O QUE FAÇO? ===================== -->
-    <section id="o-que-faco" class="page">
-      <h2>O que faço?</h2>
-      <p class="subtitle">As áreas em que trabalho e as competências que utilizo no dia a dia.</p>
-
-      <div class="grid">
-        <article class="card">
-          <div class="service-icon">🐍</div>
-          <h3>Backend &amp; APIs</h3>
-          <p>APIs REST com Python e Django para integrar sistemas e suportar fluxos de automação.</p>
-        </article>
-        <article class="card">
-          <div class="service-icon">🤖</div>
-          <h3>IA &amp; Automação</h3>
-          <p>Servidores MCP ligados ao Dify para dar ferramentas a agentes de IA, e automação de processos em SAP.</p>
-        </article>
-        <article class="card">
-          <div class="service-icon">🐳</div>
-          <h3>DevOps</h3>
-          <p>Containerização com Docker e pipelines CI/CD com Jenkins para entregas fiáveis e repetíveis.</p>
-        </article>
-        <article class="card">
-          <div class="service-icon">🧪</div>
-          <h3>Qualidade &amp; Performance</h3>
-          <p>Automação de testes (UI e API) e testes de carga e stress, com monitorização e análise de bottlenecks.</p>
-        </article>
-      </div>
-
-      <div class="card skills">
-        <h3>Competências técnicas</h3>
-        <div class="skill-groups">
-          <div class="skill-group">
-            <h4>Programação &amp; Backend</h4>
-            <ul class="tags"><li>Python</li><li>Django REST</li><li>Java</li></ul>
-          </div>
-          <div class="skill-group">
-            <h4>IA &amp; Automação</h4>
-            <ul class="tags"><li>MCP</li><li>Dify</li><li>SAP Process Automation</li></ul>
-          </div>
-          <div class="skill-group">
-            <h4>DevOps &amp; Ferramentas</h4>
-            <ul class="tags"><li>Docker</li><li>Jenkins</li><li>Git</li><li>Jira</li><li>Confluence</li><li>Bugzilla</li></ul>
-          </div>
-          <div class="skill-group">
-            <h4>Bases de Dados &amp; Web</h4>
-            <ul class="tags"><li>SQL</li><li>Oracle SQL Developer</li><li>HTML</li><li>CSS</li></ul>
-          </div>
-          <div class="skill-group">
-            <h4>Testes de API &amp; Performance</h4>
-            <ul class="tags"><li>Postman</li><li>REST Assured</li><li>JMeter</li><li>Grafana</li><li>VisualVM</li></ul>
-          </div>
-          <div class="skill-group">
-            <h4>Automação de Testes</h4>
-            <ul class="tags"><li>Selenium WebDriver</li><li>Cucumber</li><li>Robot Framework</li><li>Page Object</li></ul>
-          </div>
-          <div class="skill-group">
-            <h4>Metodologias</h4>
-            <ul class="tags"><li>Agile (Scrum)</li><li>ISTQB</li></ul>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ===================== HOBBIES ===================== -->
-    <section id="hobbies" class="page">
-      <h2>Hobbies</h2>
-      <p class="subtitle">O que gosto de fazer nos tempos livres. Clique num cartão para saber mais.</p>
-
-      <div class="grid">
-        <button class="card hobby" data-hobby="futebol">
-          <div class="emoji">⚽</div>
-          <h3>Futebol</h3>
-          <p>Jogar com amigos e acompanhar os jogos.</p>
-          <small>Saber mais →</small>
-        </button>
-        <button class="card hobby" data-hobby="musica">
-          <div class="emoji">🎧</div>
-          <h3>Música</h3>
-          <p>Ouvir diferentes estilos e descobrir novos artistas.</p>
-          <small>Saber mais →</small>
-        </button>
-        <button class="card hobby" data-hobby="viagens">
-          <div class="emoji">✈️</div>
-          <h3>Viagens</h3>
-          <p>Conhecer novos lugares, culturas e gastronomia.</p>
-          <small>Saber mais →</small>
-        </button>
-        <button class="card hobby" data-hobby="tecnologia">
-          <div class="emoji">🎮</div>
-          <h3>Tecnologia e Jogos</h3>
-          <p>Experimentar novas ferramentas, gadgets e videojogos.</p>
-          <small>Saber mais →</small>
-        </button>
-      </div>
-    </section>
-  </main>
-
-  <!-- ===================== JANELAS MODAIS ===================== -->
-  <div class="modal" id="contactModal" role="dialog" aria-modal="true" aria-labelledby="contactTitle">
-    <div class="modal-box">
-      <button class="icon-btn modal-close" data-close aria-label="Fechar">✕</button>
-      <h2 id="contactTitle">Contacte-me</h2>
-      <p>Preencha o formulário e responderei assim que possível.</p>
-      <form id="contactForm" novalidate>
-        <label>Nome <input type="text" name="nome" required></label>
-        <label>Email <input type="email" name="email" required></label>
-        <label>Mensagem <textarea name="mensagem" rows="4" required></textarea></label>
-        <button type="submit" class="btn">Enviar</button>
-        <p class="form-msg" id="formMsg">Obrigado! A sua mensagem foi registada.</p>
-      </form>
-    </div>
-  </div>
-
-  <div class="modal" id="hobbyModal" role="dialog" aria-modal="true" aria-labelledby="hobbyTitle">
-    <div class="modal-box">
-      <button class="icon-btn modal-close" data-close aria-label="Fechar">✕</button>
-      <div class="emoji" id="hobbyEmoji" style="font-size:3rem;"></div>
-      <h2 id="hobbyTitle"></h2>
-      <p id="hobbyText"></p>
-    </div>
-  </div>
-
-  <!-- ===================== RODAPÉ (identidade virtual) ===================== -->
-  <footer>
-    <ul class="social" aria-label="Redes sociais">
-      <li>
-        <a class="facebook" href="https://www.facebook.com/" target="_blank" rel="noopener" aria-label="Facebook" title="Facebook">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M14 8h3V4h-3c-2.76 0-5 2.24-5 5v2H7v4h2v9h4v-9h3l1-4h-4V9c0-.55.45-1 1-1z"/></svg>
-        </a>
-      </li>
-      <li>
-        <a class="x" href="https://x.com/" target="_blank" rel="noopener" aria-label="X (Twitter)" title="X (Twitter)">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-        </a>
-      </li>
-      <li>
-        <a class="linkedin" href="https://www.linkedin.com/" target="_blank" rel="noopener" aria-label="LinkedIn" title="LinkedIn">
-          <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="5" r="2.2"/><rect x="3" y="9" width="4" height="12"/><path d="M10 9h3.8v1.7c.6-1 1.9-2 3.9-2 4 0 4.3 2.6 4.3 6V21h-4v-5.6c0-1.4 0-3.2-2-3.2s-2.2 1.5-2.2 3.1V21H10z"/></svg>
-        </a>
-      </li>
-      <li>
-        <a class="github" href="https://github.com/murilobeathm" target="_blank" rel="noopener" aria-label="GitHub" title="GitHub">
-          <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
-        </a>
-      </li>
-      <li>
-        <a class="instagram" href="https://www.instagram.com/" target="_blank" rel="noopener" aria-label="Instagram" title="Instagram">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
-        </a>
-      </li>
-      <li>
-        <a class="youtube" href="https://www.youtube.com/" target="_blank" rel="noopener" aria-label="YouTube" title="YouTube">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M23 7.2a3 3 0 0 0-2.1-2.1C19 4.6 12 4.6 12 4.6s-7 0-8.9.5A3 3 0 0 0 1 7.2 31 31 0 0 0 .5 12a31 31 0 0 0 .5 4.8 3 3 0 0 0 2.1 2.1c1.9.5 8.9.5 8.9.5s7 0 8.9-.5a3 3 0 0 0 2.1-2.1 31 31 0 0 0 .5-4.8 31 31 0 0 0-.5-4.8zM9.8 15.1V8.9L15.5 12z"/></svg>
-        </a>
-      </li>
-    </ul>
-    <p>&copy; <span id="year"></span> Murilo Beathm · Mini Projeto SPA · Desenvolvimento Web</p>
-  </footer>
-
-  <!-- ===================== JAVASCRIPT ===================== -->
+  <!-- ===================== APLICAÇÃO (SPA) ===================== -->
   <script>
-    (function () {
-      // ---------- Router da SPA (navegação por links internos #) ----------
-      const pages = document.querySelectorAll('.page');
-      const links = document.querySelectorAll('.nav-links a');
-      const navLinks = document.getElementById('navLinks');
-      const menuToggle = document.getElementById('menuToggle');
-      const titles = {
-        'inicio': 'Início',
-        'quem-sou': 'Quem Sou Eu?',
-        'o-que-faco': 'O que faço?',
-        'hobbies': 'Hobbies'
-      };
+    const { createApp, reactive, ref, computed, watch, nextTick, onMounted, onBeforeUnmount } = Vue;
+    const { createRouter, createWebHashHistory, useRoute } = VueRouter;
 
-      function showPage() {
-        const id = location.hash.slice(1) || 'inicio';
-        const target = document.getElementById(id);
-        if (!target || !target.classList.contains('page')) {
-          location.replace('#inicio');
-          return;
+    /* =========================================================
+       DADOS DO CURRÍCULO
+       Todo o conteúdo vem daqui e é desenhado pelos componentes
+       através de v-for, v-if e interpolação {{ }}.
+       ========================================================= */
+    const cv = {
+      nome: 'Murilo Beathm',
+      iniciais: 'MB',
+      funcao: 'Software Engineer · Backend, Automação & IA',
+      resumo: 'Desenvolvo APIs REST em Python/Django, ambientes Docker e servidores MCP para agentes de IA — com uma base sólida em QA e testes de performance que garante software fiável e escalável.',
+      sobre: [
+        'Sou Software Engineer focado em desenvolvimento backend, automação e integração de Inteligência Artificial. Tenho experiência na construção de APIs REST em Python/Django, ambientes Docker e servidores MCP (Model Context Protocol) para agentes de IA.',
+        'Antes de chegar ao desenvolvimento, construí um percurso sólido em Quality Assurance — testes automatizados, testes de API e testes de performance — o que me dá uma visão rigorosa sobre fiabilidade, escalabilidade e qualidade de software.'
+      ],
+      experiencia: [
+        {
+          data: 'Janeiro 2026 – Presente', cargo: 'Software Engineer · DevOps & AI Integration', empresa: 'Noesis · @NOS SGPS',
+          tarefas: [
+            'Desenvolvimento de APIs REST com Python e Django para integrar sistemas e suportar fluxos de automação internos.',
+            'Construção e deploy de servidores MCP ligados ao Dify, permitindo tool-calling a agentes de IA.',
+            'Containerização com Docker e gestão de pipelines CI/CD com Jenkins.',
+            'Automação de fluxos de dados e processos de negócio em SAP, em colaboração com equipas de desenvolvimento e QA.'
+          ]
+        },
+        {
+          data: 'Março 2025 – Dezembro 2025', cargo: 'Automation Tester', empresa: 'Capgemini',
+          tarefas: [
+            'Desenvolvimento e manutenção de frameworks de testes automatizados em Java, Selenium e Cucumber (Page Object Pattern).',
+            'Cenários de teste UI end-to-end, garantindo estabilidade e compatibilidade entre browsers.',
+            'Validação de APIs com REST Assured e de bases de dados com SQL.',
+            'Integração dos testes automatizados nas suites de regressão, aumentando cobertura e eficiência.'
+          ]
+        },
+        {
+          data: 'Outubro 2023 – Fevereiro 2025', cargo: 'Performance Tester', empresa: 'Capgemini',
+          tarefas: [
+            'Desenho e execução de testes de carga e stress com Apache JMeter para uma aplicação crítica do setor público.',
+            'Monitorização de performance através de dashboards Grafana.',
+            'Identificação de bottlenecks (memory leaks, problemas de threads) com VisualVM.',
+            'Otimização de tempos de resposta sob carga de pico, em conjunto com as equipas de desenvolvimento.'
+          ]
+        },
+        {
+          data: 'Abril 2023 – Setembro 2023', cargo: 'Trainee QA Analyst', empresa: 'Capgemini',
+          tarefas: [
+            'Testes manuais e automatizados com Selenium IDE, Robot Framework e Python.',
+            'Melhoria de scripts de regressão, reduzindo o tempo de execução e aumentando a cobertura.',
+            'Participação na melhoria dos processos de QA.'
+          ]
         }
-        pages.forEach(p => p.classList.toggle('active', p === target));
-        links.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + id));
-        document.title = 'Murilo Beathm | ' + titles[id];
-        window.scrollTo(0, 0);
+      ],
+      formacao: [
+        { data: '2026 – 2028', curso: 'Mestrado em Engenharia Informática e Tecnologia Web', escola: 'Universidade de Trás-os-Montes e Alto Douro (UTAD) · PT' },
+        { data: '2024 – 2026', curso: 'Licenciatura em Análise e Desenvolvimento de Sistemas', escola: 'Uninter · BR' },
+        { data: '2021 – 2022', curso: 'Formação em TI', escola: 'Rumos — IT Training & Consulting Services · PT' }
+      ],
+      dados: [
+        { k: 'Nome', v: 'Murilo Beathm' },
+        { k: 'Função', v: 'Software Engineer' },
+        { k: 'Localização', v: 'Portugal' },
+        { k: 'Área', v: 'Backend, Automação & IA' }
+      ],
+      idiomas: [
+        { k: 'Português', v: 'Nativo' },
+        { k: 'Inglês', v: 'B2' }
+      ],
+      certificacoes: ['ISTQB Certified Tester Foundation Level', 'Scrum Foundation — CertiProf'],
+      servicos: [
+        { icon: '🐍', titulo: 'Backend & APIs', texto: 'APIs REST com Python e Django para integrar sistemas e suportar fluxos de automação.' },
+        { icon: '🤖', titulo: 'IA & Automação', texto: 'Servidores MCP ligados ao Dify para dar ferramentas a agentes de IA, e automação de processos em SAP.' },
+        { icon: '🐳', titulo: 'DevOps', texto: 'Containerização com Docker e pipelines CI/CD com Jenkins para entregas fiáveis e repetíveis.' },
+        { icon: '🧪', titulo: 'Qualidade & Performance', texto: 'Automação de testes (UI e API) e testes de carga e stress, com monitorização e análise de bottlenecks.' }
+      ],
+      competencias: [
+        { grupo: 'Programação & Backend', itens: ['Python', 'Django REST', 'Java'] },
+        { grupo: 'IA & Automação', itens: ['MCP', 'Dify', 'SAP Process Automation'] },
+        { grupo: 'DevOps & Ferramentas', itens: ['Docker', 'Jenkins', 'Git', 'Jira', 'Confluence', 'Bugzilla'] },
+        { grupo: 'Bases de Dados & Web', itens: ['SQL', 'Oracle SQL Developer', 'HTML', 'CSS'] },
+        { grupo: 'Testes de API & Performance', itens: ['Postman', 'REST Assured', 'JMeter', 'Grafana', 'VisualVM'] },
+        { grupo: 'Automação de Testes', itens: ['Selenium WebDriver', 'Cucumber', 'Robot Framework', 'Page Object'] },
+        { grupo: 'Metodologias', itens: ['Agile (Scrum)', 'ISTQB'] }
+      ],
+      hobbies: [
+        { id: 'futebol', emoji: '⚽', titulo: 'Futebol', resumo: 'Jogar com amigos e acompanhar os jogos.',
+          texto: 'Jogo futebol com amigos sempre que posso. Para além de ser um ótimo exercício, ensina trabalho em equipa, disciplina e espírito de entreajuda.' },
+        { id: 'musica', emoji: '🎧', titulo: 'Música', resumo: 'Ouvir diferentes estilos e descobrir novos artistas.',
+          texto: 'A música acompanha-me no dia a dia, seja a trabalhar, a estudar ou a descontrair. Gosto de explorar géneros diferentes e de ir a concertos.' },
+        { id: 'viagens', emoji: '✈️', titulo: 'Viagens', resumo: 'Conhecer novos lugares, culturas e gastronomia.',
+          texto: 'Viajar permite-me conhecer outras culturas, pessoas e gastronomias. Cada viagem é uma oportunidade de aprender algo novo.' },
+        { id: 'tecnologia', emoji: '🎮', titulo: 'Tecnologia e Jogos', resumo: 'Experimentar novas ferramentas, gadgets e videojogos.',
+          texto: 'Gosto de experimentar novas ferramentas e linguagens de programação, montar pequenos projetos pessoais e, claro, jogar videojogos.' }
+      ],
+      redes: [
+        { classe: 'facebook', nome: 'Facebook', url: 'https://www.facebook.com/', viewBox: '0 0 24 24',
+          svg: '<path fill="currentColor" d="M14 8h3V4h-3c-2.76 0-5 2.24-5 5v2H7v4h2v9h4v-9h3l1-4h-4V9c0-.55.45-1 1-1z"/>' },
+        { classe: 'x', nome: 'X (Twitter)', url: 'https://x.com/', viewBox: '0 0 24 24',
+          svg: '<path fill="currentColor" d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>' },
+        { classe: 'linkedin', nome: 'LinkedIn', url: 'https://www.linkedin.com/', viewBox: '0 0 24 24',
+          svg: '<g fill="currentColor"><circle cx="5" cy="5" r="2.2"/><rect x="3" y="9" width="4" height="12"/><path d="M10 9h3.8v1.7c.6-1 1.9-2 3.9-2 4 0 4.3 2.6 4.3 6V21h-4v-5.6c0-1.4 0-3.2-2-3.2s-2.2 1.5-2.2 3.1V21H10z"/></g>' },
+        { classe: 'github', nome: 'GitHub', url: 'https://github.com/murilobeathm', viewBox: '0 0 16 16',
+          svg: '<path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>' },
+        { classe: 'instagram', nome: 'Instagram', url: 'https://www.instagram.com/', viewBox: '0 0 24 24',
+          svg: '<g fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/></g><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/>' },
+        { classe: 'youtube', nome: 'YouTube', url: 'https://www.youtube.com/', viewBox: '0 0 24 24',
+          svg: '<path fill="currentColor" d="M23 7.2a3 3 0 0 0-2.1-2.1C19 4.6 12 4.6 12 4.6s-7 0-8.9.5A3 3 0 0 0 1 7.2 31 31 0 0 0 .5 12a31 31 0 0 0 .5 4.8 3 3 0 0 0 2.1 2.1c1.9.5 8.9.5 8.9.5s7 0 8.9-.5a3 3 0 0 0 2.1-2.1 31 31 0 0 0 .5-4.8 31 31 0 0 0-.5-4.8zM9.8 15.1V8.9L15.5 12z"/>' }
+      ]
+    };
 
-        // fecha o menu móvel após navegar
-        navLinks.classList.remove('open');
-        menuToggle.setAttribute('aria-expanded', 'false');
-      }
-      window.addEventListener('hashchange', showPage);
-      showPage();
+    /* =========================================================
+       ESTADO PARTILHADO (store reativo simples)
+       Controla qual janela modal está aberta.
+       ========================================================= */
+    const ui = reactive({
+      modal: null,      // 'contacto' | 'hobby' | null
+      hobby: null,      // hobby selecionado para o modal de detalhes
+      abrirContacto() { ui.modal = 'contacto'; },
+      abrirHobby(h)   { ui.hobby = h; ui.modal = 'hobby'; },
+      fechar()        { ui.modal = null; }
+    });
 
-      // ---------- Menu móvel ----------
-      menuToggle.addEventListener('click', () => {
-        const open = navLinks.classList.toggle('open');
-        menuToggle.setAttribute('aria-expanded', String(open));
-      });
+    /* =========================================================
+       COMPONENTES — PÁGINAS (uma por rota)
+       ========================================================= */
+    const InicioPage = {
+      setup: () => ({ cv, ui }),
+      template: `
+        <section class="page">
+          <div class="hero">
+            <div>
+              <p class="hello">Olá, eu sou</p>
+              <h1>{{ cv.nome }}</h1>
+              <p class="role">{{ cv.funcao }}</p>
+              <p>{{ cv.resumo }}</p>
+              <div class="actions">
+                <router-link to="/quem-sou" class="btn">Conhecer-me</router-link>
+                <button class="btn outline" @click="ui.abrirContacto()">Contactar</button>
+              </div>
+            </div>
+            <div class="avatar" aria-hidden="true">{{ cv.iniciais }}</div>
+          </div>
+        </section>`
+    };
 
-      // ---------- Tema claro / escuro ----------
-      const themeBtn = document.getElementById('themeToggle');
-      function setTheme(t) {
-        document.documentElement.setAttribute('data-theme', t);
-        themeBtn.textContent = t === 'dark' ? '☀️' : '🌙';
-        try { localStorage.setItem('theme', t); } catch (e) {}
-      }
-      let saved = null;
-      try { saved = localStorage.getItem('theme'); } catch (e) {}
-      setTheme(saved || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'));
-      themeBtn.addEventListener('click', () =>
-        setTheme(document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'));
+    const QuemSouPage = {
+      setup: () => ({ cv, ui }),
+      template: `
+        <section class="page">
+          <h2>Quem Sou Eu?</h2>
+          <p class="subtitle">Um pouco sobre mim, o meu percurso e a minha formação.</p>
 
-      // ---------- Janelas modais ----------
-      let lastFocus = null;
-      function openModal(id) {
-        lastFocus = document.activeElement;
-        const m = document.getElementById(id);
-        m.classList.add('open');
-        document.body.style.overflow = 'hidden';
-        m.querySelector('.modal-close').focus();
-      }
-      function closeModal(m) {
-        m.classList.remove('open');
-        document.body.style.overflow = '';
-        if (lastFocus) lastFocus.focus();
-      }
-      document.querySelectorAll('[data-modal]').forEach(btn =>
-        btn.addEventListener('click', () => openModal(btn.dataset.modal)));
-      document.querySelectorAll('.modal').forEach(m => {
-        m.addEventListener('click', e => {
-          if (e.target === m || e.target.hasAttribute('data-close')) closeModal(m);
+          <div class="about">
+            <div class="card">
+              <h3>Sobre mim</h3>
+              <p v-for="(paragrafo, i) in cv.sobre" :key="i">{{ paragrafo }}</p>
+
+              <h3 class="section-title">Experiência profissional</h3>
+              <div class="timeline">
+                <div class="timeline-item" v-for="job in cv.experiencia" :key="job.data">
+                  <span class="date">{{ job.data }}</span>
+                  <h3>{{ job.cargo }}</h3>
+                  <span class="company">{{ job.empresa }}</span>
+                  <ul><li v-for="t in job.tarefas" :key="t">{{ t }}</li></ul>
+                </div>
+              </div>
+
+              <h3 class="section-title">Formação</h3>
+              <div class="timeline">
+                <div class="timeline-item" v-for="f in cv.formacao" :key="f.curso">
+                  <span class="date">{{ f.data }}</span>
+                  <h3>{{ f.curso }}</h3>
+                  <span class="company">{{ f.escola }}</span>
+                </div>
+              </div>
+            </div>
+
+            <aside class="card">
+              <h3>Dados pessoais</h3>
+              <ul class="facts">
+                <li v-for="d in cv.dados" :key="d.k"><strong>{{ d.k }}</strong> <span>{{ d.v }}</span></li>
+              </ul>
+
+              <h3 class="section-title">Idiomas</h3>
+              <ul class="facts">
+                <li v-for="l in cv.idiomas" :key="l.k"><strong>{{ l.k }}</strong> <span>{{ l.v }}</span></li>
+              </ul>
+
+              <h3 class="section-title">Certificações</h3>
+              <ul class="facts">
+                <li v-for="c in cv.certificacoes" :key="c"><span>{{ c }}</span></li>
+              </ul>
+              <button class="btn block" @click="ui.abrirContacto()">Enviar mensagem</button>
+            </aside>
+          </div>
+        </section>`
+    };
+
+    const OQueFacoPage = {
+      setup: () => ({ cv }),
+      template: `
+        <section class="page">
+          <h2>O que faço?</h2>
+          <p class="subtitle">As áreas em que trabalho e as competências que utilizo no dia a dia.</p>
+
+          <div class="grid">
+            <article class="card" v-for="s in cv.servicos" :key="s.titulo">
+              <div class="service-icon">{{ s.icon }}</div>
+              <h3>{{ s.titulo }}</h3>
+              <p>{{ s.texto }}</p>
+            </article>
+          </div>
+
+          <div class="card skills">
+            <h3>Competências técnicas</h3>
+            <div class="skill-groups">
+              <div class="skill-group" v-for="g in cv.competencias" :key="g.grupo">
+                <h4>{{ g.grupo }}</h4>
+                <ul class="tags"><li v-for="item in g.itens" :key="item">{{ item }}</li></ul>
+              </div>
+            </div>
+          </div>
+        </section>`
+    };
+
+    const HobbiesPage = {
+      setup: () => ({ cv, ui }),
+      template: `
+        <section class="page">
+          <h2>Hobbies</h2>
+          <p class="subtitle">O que gosto de fazer nos tempos livres. Clique num cartão para saber mais.</p>
+
+          <div class="grid">
+            <button class="card hobby" v-for="h in cv.hobbies" :key="h.id" @click="ui.abrirHobby(h)">
+              <div class="emoji">{{ h.emoji }}</div>
+              <h3>{{ h.titulo }}</h3>
+              <p>{{ h.resumo }}</p>
+              <small>Saber mais →</small>
+            </button>
+          </div>
+        </section>`
+    };
+
+    /* =========================================================
+       COMPONENTES — ESTRUTURA E JANELAS MODAIS
+       ========================================================= */
+    const AppHeader = {
+      props: ['theme'],
+      emits: ['toggle-theme'],
+      setup() {
+        const menuAberto = ref(false);
+        const route = useRoute();
+        // fecha o menu móvel sempre que se muda de página
+        watch(() => route.path, () => { menuAberto.value = false; });
+        const links = [
+          { to: '/', label: 'Início' },
+          { to: '/quem-sou', label: 'Quem Sou Eu?' },
+          { to: '/o-que-faco', label: 'O que faço?' },
+          { to: '/hobbies', label: 'Hobbies' }
+        ];
+        return { menuAberto, links };
+      },
+      template: `
+        <header>
+          <nav class="nav" aria-label="Navegação principal">
+            <router-link to="/" class="logo">Murilo<span>.</span>CV</router-link>
+            <ul class="nav-links" :class="{ open: menuAberto }">
+              <li v-for="l in links" :key="l.to"><router-link :to="l.to">{{ l.label }}</router-link></li>
+            </ul>
+            <div class="nav-actions">
+              <button class="icon-btn" @click="$emit('toggle-theme')"
+                      aria-label="Alternar tema claro/escuro" title="Alternar tema">{{ theme === 'dark' ? '☀️' : '🌙' }}</button>
+              <button class="icon-btn menu-toggle" @click="menuAberto = !menuAberto"
+                      aria-label="Abrir menu" :aria-expanded="String(menuAberto)">☰</button>
+            </div>
+          </nav>
+        </header>`
+    };
+
+    // Janela modal genérica: o conteúdo é passado por slot
+    const ModalBox = {
+      props: ['titleId'],
+      emits: ['close'],
+      setup() {
+        const closeBtn = ref(null);
+        onMounted(() => nextTick(() => closeBtn.value && closeBtn.value.focus()));
+        return { closeBtn };
+      },
+      template: `
+        <div class="modal open" role="dialog" aria-modal="true" :aria-labelledby="titleId" @click.self="$emit('close')">
+          <div class="modal-box">
+            <button ref="closeBtn" class="icon-btn modal-close" @click="$emit('close')" aria-label="Fechar">✕</button>
+            <slot></slot>
+          </div>
+        </div>`
+    };
+
+    const ContactForm = {
+      emits: ['done'],
+      setup(props, { emit }) {
+        const form = reactive({ nome: '', email: '', mensagem: '' });
+        const enviado = ref(false);
+        const formEl = ref(null);
+        function submeter() {
+          if (!formEl.value.checkValidity()) { formEl.value.reportValidity(); return; }
+          enviado.value = true;
+          Object.assign(form, { nome: '', email: '', mensagem: '' });
+          setTimeout(() => emit('done'), 2000);
+        }
+        return { form, enviado, formEl, submeter };
+      },
+      template: `
+        <form ref="formEl" novalidate @submit.prevent="submeter">
+          <label>Nome <input type="text" v-model.trim="form.nome" required></label>
+          <label>Email <input type="email" v-model.trim="form.email" required></label>
+          <label>Mensagem <textarea rows="4" v-model.trim="form.mensagem" required></textarea></label>
+          <button type="submit" class="btn">Enviar</button>
+          <p class="form-msg" v-if="enviado">Obrigado! A sua mensagem foi registada.</p>
+        </form>`
+    };
+
+    const AppFooter = {
+      setup: () => ({ redes: cv.redes, ano: new Date().getFullYear() }),
+      template: `
+        <footer>
+          <ul class="social" aria-label="Redes sociais">
+            <li v-for="r in redes" :key="r.classe">
+              <a :class="r.classe" :href="r.url" target="_blank" rel="noopener" :aria-label="r.nome" :title="r.nome">
+                <svg :viewBox="r.viewBox" v-html="r.svg"></svg>
+              </a>
+            </li>
+          </ul>
+          <p>&copy; {{ ano }} Murilo Beathm · Mini Projeto SPA (VueJS) · Desenvolvimento Web</p>
+        </footer>`
+    };
+
+    /* =========================================================
+       ROUTER — navegação por links internos (#/...)
+       ========================================================= */
+    const router = createRouter({
+      history: createWebHashHistory(),   // funciona a abrir o ficheiro diretamente (file://)
+      linkExactActiveClass: 'active',
+      routes: [
+        { path: '/',           component: InicioPage,   meta: { title: 'Início' } },
+        { path: '/quem-sou',   component: QuemSouPage,  meta: { title: 'Quem Sou Eu?' } },
+        { path: '/o-que-faco', component: OQueFacoPage, meta: { title: 'O que faço?' } },
+        { path: '/hobbies',    component: HobbiesPage,  meta: { title: 'Hobbies' } },
+        { path: '/:pathMatch(.*)*', redirect: '/' }
+      ],
+      scrollBehavior: () => ({ top: 0 })
+    });
+    router.afterEach(to => { document.title = 'Murilo Beathm | ' + to.meta.title; });
+
+    /* =========================================================
+       COMPONENTE RAIZ
+       ========================================================= */
+    const App = {
+      components: { AppHeader, AppFooter, ModalBox, ContactForm },
+      setup() {
+        // Tema claro / escuro
+        let guardado = null;
+        try { guardado = localStorage.getItem('theme'); } catch (e) {}
+        const theme = ref(guardado || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'));
+        watch(theme, t => {
+          document.documentElement.setAttribute('data-theme', t);
+          try { localStorage.setItem('theme', t); } catch (e) {}
+        }, { immediate: true });
+        const toggleTheme = () => { theme.value = theme.value === 'dark' ? 'light' : 'dark'; };
+
+        // Bloqueia o scroll da página quando há um modal aberto
+        let ultimoFoco = null;
+        watch(() => ui.modal, (aberto, anterior) => {
+          document.body.style.overflow = aberto ? 'hidden' : '';
+          if (aberto && !anterior) ultimoFoco = document.activeElement;
+          if (!aberto && ultimoFoco) ultimoFoco.focus();
         });
-      });
-      document.addEventListener('keydown', e => {
-        if (e.key === 'Escape') document.querySelectorAll('.modal.open').forEach(closeModal);
-      });
 
-      // ---------- Detalhes dos hobbies (modal) ----------
-      const hobbies = {
-        futebol:    { emoji: '⚽', title: 'Futebol', text: 'Jogo futebol com amigos sempre que posso. Para além de ser um ótimo exercício, ensina trabalho em equipa, disciplina e espírito de entreajuda.' },
-        musica:     { emoji: '🎧', title: 'Música', text: 'A música acompanha-me no dia a dia, seja a trabalhar, a estudar ou a descontrair. Gosto de explorar géneros diferentes e de ir a concertos.' },
-        viagens:    { emoji: '✈️', title: 'Viagens', text: 'Viajar permite-me conhecer outras culturas, pessoas e gastronomias. Cada viagem é uma oportunidade de aprender algo novo.' },
-        tecnologia: { emoji: '🎮', title: 'Tecnologia e Jogos', text: 'Gosto de experimentar novas ferramentas e linguagens de programação, montar pequenos projetos pessoais e, claro, jogar videojogos.' }
-      };
-      document.querySelectorAll('[data-hobby]').forEach(card =>
-        card.addEventListener('click', () => {
-          const h = hobbies[card.dataset.hobby];
-          document.getElementById('hobbyEmoji').textContent = h.emoji;
-          document.getElementById('hobbyTitle').textContent = h.title;
-          document.getElementById('hobbyText').textContent = h.text;
-          openModal('hobbyModal');
-        }));
+        // Tecla Escape fecha o modal
+        const onKey = e => { if (e.key === 'Escape') ui.fechar(); };
+        onMounted(() => document.addEventListener('keydown', onKey));
+        onBeforeUnmount(() => document.removeEventListener('keydown', onKey));
 
-      // ---------- Formulário de contacto ----------
-      const form = document.getElementById('contactForm');
-      form.addEventListener('submit', e => {
-        e.preventDefault();
-        if (!form.checkValidity()) { form.reportValidity(); return; }
-        const msg = document.getElementById('formMsg');
-        msg.style.display = 'block';
-        form.reset();
-        setTimeout(() => { msg.style.display = 'none'; closeModal(document.getElementById('contactModal')); }, 2000);
-      });
+        return { theme, toggleTheme, ui };
+      },
+      template: `
+        <app-header :theme="theme" @toggle-theme="toggleTheme"></app-header>
 
-      // ---------- Ano no rodapé ----------
-      document.getElementById('year').textContent = new Date().getFullYear();
-    })();
+        <main>
+          <router-view></router-view>
+        </main>
+
+        <modal-box v-if="ui.modal === 'contacto'" title-id="contactTitle" @close="ui.fechar()">
+          <h2 id="contactTitle">Contacte-me</h2>
+          <p>Preencha o formulário e responderei assim que possível.</p>
+          <contact-form @done="ui.fechar()"></contact-form>
+        </modal-box>
+
+        <modal-box v-if="ui.modal === 'hobby'" title-id="hobbyTitle" @close="ui.fechar()">
+          <div class="emoji modal-emoji">{{ ui.hobby.emoji }}</div>
+          <h2 id="hobbyTitle">{{ ui.hobby.titulo }}</h2>
+          <p>{{ ui.hobby.texto }}</p>
+        </modal-box>
+
+        <app-footer></app-footer>`
+    };
+
+    createApp(App).use(router).mount('#app');
   </script>
 </body>
 </html>

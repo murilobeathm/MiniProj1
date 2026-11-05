@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MiniProj1 | Wireframes</title>
+  <style>
+    :root { --ink: #333; --line: #888; --fill: #e6e6e6; --fill2: #cfcfcf; --bg: #fafafa; --note: #fff8d6; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: "Segoe UI", Arial, sans-serif; color: var(--ink); background: var(--bg); padding: 32px 16px; line-height: 1.5; }
+    .doc { max-width: 1000px; margin: 0 auto; }
+    .doc > header { margin-bottom: 32px; }
+    .doc > header h1 { font-size: 1.8rem; }
+    .doc > header p { color: #666; }
+    .index { margin: 16px 0 0 20px; }
+
+    .wf { margin-bottom: 48px; page-break-inside: avoid; break-inside: avoid; }
+    .wf h2 { font-size: 1.25rem; margin-bottom: 4px; }
+    .wf .route { font-family: Consolas, monospace; font-size: .85rem; color: #666; margin-bottom: 12px; }
+    .layout { display: grid; grid-template-columns: 1fr 260px; gap: 20px; align-items: start; }
+
+    /* Moldura do browser */
+    .screen { border: 2px solid var(--line); border-radius: 8px; background: #fff; overflow: hidden; }
+    .chrome { background: var(--fill); border-bottom: 2px solid var(--line); padding: 6px 10px; display: flex; gap: 6px; align-items: center; }
+    .chrome i { width: 10px; height: 10px; border-radius: 50%; border: 1.5px solid var(--line); display: inline-block; }
+    .chrome .url { flex: 1; margin-left: 10px; border: 1.5px solid var(--line); border-radius: 4px; font-size: .75rem; padding: 1px 8px; background: #fff; font-family: Consolas, monospace; }
+
+    /* Elementos genéricos do wireframe */
+    .bar { display: flex; align-items: center; justify-content: space-between; padding: 10px 16px; border-bottom: 2px dashed var(--line); gap: 10px; }
+    .nav { display: flex; gap: 6px; }
+    .nav span { border: 1.5px solid var(--line); border-radius: 4px; padding: 2px 10px; font-size: .8rem; }
+    .nav span.on { background: var(--ink); color: #fff; border-color: var(--ink); }
+    .box { border: 1.5px solid var(--line); border-radius: 6px; padding: 12px; background: #fff; }
+    .ph { background: var(--fill); border: 1.5px dashed var(--line); border-radius: 4px; display: grid; place-items: center; font-size: .75rem; color: #666; text-align: center; }
+    .line { height: 8px; background: var(--fill2); border-radius: 4px; margin: 6px 0; }
+    .w90 { width: 90%; } .w70 { width: 70%; } .w50 { width: 50%; } .w30 { width: 30%; }
+    .btn { display: inline-block; border: 2px solid var(--ink); border-radius: 6px; padding: 3px 12px; font-size: .8rem; font-weight: 600; }
+    .btn.fill { background: var(--ink); color: #fff; }
+    .content { padding: 16px; display: grid; gap: 12px; }
+    .t { font-weight: 700; font-size: .9rem; }
+    .lbl { font-size: .75rem; color: #666; }
+    .g4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+    .g3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+    .g21 { display: grid; grid-template-columns: 2fr 1fr; gap: 12px; }
+    .circle { border-radius: 50%; }
+    .foot { border-top: 2px dashed var(--line); padding: 10px; display: flex; flex-direction: column; align-items: center; gap: 6px; }
+    .icons { display: flex; gap: 6px; }
+    .icons i { width: 18px; height: 18px; border-radius: 50%; border: 1.5px solid var(--line); display: inline-block; }
+    .tl { border-left: 3px solid var(--line); padding-left: 12px; display: grid; gap: 10px; }
+    .chips { display: flex; flex-wrap: wrap; gap: 4px; }
+    .chips span { border: 1.5px solid var(--line); border-radius: 999px; width: 44px; height: 14px; }
+    .overlay { position: relative; }
+    .overlay::after { content: ""; position: absolute; inset: 0; background: rgba(0,0,0,.35); }
+    .dialog { position: absolute; z-index: 2; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 60%; background: #fff; border: 2px solid var(--ink); border-radius: 8px; padding: 14px; display: grid; gap: 8px; }
+    .x { position: absolute; top: 8px; right: 10px; border: 1.5px solid var(--line); border-radius: 4px; width: 20px; height: 20px; font-size: .7rem; display: grid; place-items: center; }
+    .input { border: 1.5px solid var(--line); border-radius: 4px; height: 22px; }
+    .input.tall { height: 54px; }
+
+    /* Anotações */
+    .notes { background: var(--note); border: 1.5px solid #d8c56a; border-radius: 6px; padding: 12px 14px; font-size: .85rem; }
+    .notes h3 { font-size: .9rem; margin-bottom: 6px; }
+    .notes ol { margin-left: 18px; }
+    .n { display: inline-grid; place-items: center; width: 18px; height: 18px; border-radius: 50%; background: #d8a400; color: #fff; font-size: .7rem; font-weight: 700; margin-right: 4px; vertical-align: middle; }
+
+    /* Mobile */
+    .phone { width: 220px; border: 2px solid var(--line); border-radius: 18px; padding: 10px 6px; background: #fff; }
+    .phone .screen { border-radius: 6px; }
+
+    @media (max-width: 760px) {
+      .layout { grid-template-columns: 1fr; }
+      .g4 { grid-template-columns: repeat(2, 1fr); }
+      .g21 { grid-template-columns: 1fr; }
+      .dialog { width: 85%; }
+    }
+    @media print {
+      body { background: #fff; padding: 0; }
+      .wf { page-break-after: always; }
+    }
+  </style>
+</head>
+<body>
+<div class="doc">
+  <header>
+    <h1>MiniProj1 — Wireframes</h1>
+    <p>Prototipagem de baixa fidelidade do Currículo Vitae em SPA (VueJS) · Murilo Beathm</p>
+    <ol class="index">
+      <li>Estrutura comum (cabeçalho, conteúdo, rodapé)</li>
+      <li>Página Início — <code>#/</code></li>
+      <li>Página Quem Sou Eu? — <code>#/quem-sou</code></li>
+      <li>Página O que faço? — <code>#/o-que-faco</code></li>
+      <li>Página Hobbies — <code>#/hobbies</code></li>
+      <li>Janela modal — Contacto</li>
+      <li>Janela modal — Detalhe do hobby</li>
+      <li>Versão mobile (menu)</li>
+    </ol>
+  </header>
+
+  <!-- 1. Estrutura comum -->
+  <section class="wf">
+    <h2>1. Estrutura comum</h2>
+    <p class="route">Componentes Vue: AppHeader · &lt;router-view&gt; · AppFooter</p>
+    <div class="layout">
+      <div class="screen">
+        <div class="chrome"><i></i><i></i><i></i><span class="url">index.html#/…</span></div>
+        <div class="bar"><span class="t"><span class="n">1</span>Murilo.CV</span>
+          <div class="nav"><span class="on">Início</span><span>Quem Sou Eu?</span><span>O que faço?</span><span>Hobbies</span></div>
+          <span class="btn"><span class="n">2</span>☾</span></div>
+        <div class="content"><div class="ph" style="height:160px;"><span><span class="n">3</span>Área de conteúdo<br>(&lt;router-view&gt; — muda consoante a rota)</span></div></div>
+        <div class="foot"><div class="icons"><span class="n">4</span><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="line w30"></div></div>
+      </div>
+      <div class="notes"><h3>Funcionalidade</h3><ol>
+        <li>Logótipo e menu de navegação por links internos (<code>#/rota</code>). O link ativo fica destacado.</li>
+        <li>Botão de alternar tema claro/escuro (guardado no browser).</li>
+        <li>Só uma "página" é mostrada de cada vez, sem recarregar o ficheiro.</li>
+        <li>Rodapé fixo em todas as páginas com a identidade virtual: Facebook, X, LinkedIn, GitHub, Instagram, YouTube.</li>
+      </ol></div>
+    </div>
+  </section>
+
+  <!-- 2. Início -->
+  <section class="wf">
+    <h2>2. Página Início</h2>
+    <p class="route">Rota: #/ · Componente: InicioPage</p>
+    <div class="layout">
+      <div class="screen">
+        <div class="chrome"><i></i><i></i><i></i><span class="url">index.html#/</span></div>
+        <div class="bar"><span class="t">Murilo.CV</span><div class="nav"><span class="on">Início</span><span>Quem Sou Eu?</span><span>O que faço?</span><span>Hobbies</span></div><span class="btn">☾</span></div>
+        <div class="content">
+          <div class="g21" style="align-items:center;min-height:200px;">
+            <div>
+              <div class="lbl">Olá, eu sou</div>
+              <div class="t" style="font-size:1.4rem;"><span class="n">1</span>Murilo Beathm</div>
+              <div class="line w70"></div>
+              <div class="line w90"></div><div class="line w90"></div><div class="line w50"></div>
+              <div style="margin-top:10px;display:flex;gap:8px;"><span class="btn fill"><span class="n">2</span>Conhecer-me</span><span class="btn"><span class="n">3</span>Contactar</span></div>
+            </div>
+            <div class="ph circle" style="width:130px;height:130px;margin:auto;"><span class="n">4</span>MB</div>
+          </div>
+        </div>
+        <div class="foot"><div class="icons"><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="line w30"></div></div>
+      </div>
+      <div class="notes"><h3>Funcionalidade</h3><ol>
+        <li>Nome, função (Software Engineer · Backend, Automação &amp; IA) e resumo profissional.</li>
+        <li>Navega para <code>#/quem-sou</code>.</li>
+        <li>Abre a janela modal de contacto (wireframe 6).</li>
+        <li>Avatar com as iniciais.</li>
+      </ol></div>
+    </div>
+  </section>
+
+  <!-- 3. Quem Sou Eu -->
+  <section class="wf">
+    <h2>3. Página Quem Sou Eu?</h2>
+    <p class="route">Rota: #/quem-sou · Componente: QuemSouPage</p>
+    <div class="layout">
+      <div class="screen">
+        <div class="chrome"><i></i><i></i><i></i><span class="url">index.html#/quem-sou</span></div>
+        <div class="bar"><span class="t">Murilo.CV</span><div class="nav"><span>Início</span><span class="on">Quem Sou Eu?</span><span>O que faço?</span><span>Hobbies</span></div><span class="btn">☾</span></div>
+        <div class="content">
+          <div><div class="t">Quem Sou Eu?</div><div class="line w50"></div></div>
+          <div class="g21">
+            <div class="box">
+              <div class="t"><span class="n">1</span>Sobre mim</div><div class="line w90"></div><div class="line w90"></div><div class="line w70"></div>
+              <div class="t" style="margin-top:10px;"><span class="n">2</span>Experiência profissional</div>
+              <div class="tl">
+                <div><div class="lbl">Jan 2026 – Presente</div><div class="line w70"></div><div class="line w90"></div></div>
+                <div><div class="lbl">Mar 2025 – Dez 2025</div><div class="line w70"></div><div class="line w90"></div></div>
+                <div><div class="lbl">Out 2023 – Fev 2025</div><div class="line w70"></div><div class="line w90"></div></div>
+                <div><div class="lbl">Abr 2023 – Set 2023</div><div class="line w70"></div><div class="line w90"></div></div>
+              </div>
+              <div class="t" style="margin-top:10px;"><span class="n">3</span>Formação</div>
+              <div class="tl">
+                <div><div class="lbl">2026 – 2028</div><div class="line w70"></div></div>
+                <div><div class="lbl">2024 – 2026</div><div class="line w70"></div></div>
+                <div><div class="lbl">2021 – 2022</div><div class="line w70"></div></div>
+              </div>
+            </div>
+            <div class="box">
+              <div class="t"><span class="n">4</span>Dados pessoais</div><div class="line w90"></div><div class="line w90"></div><div class="line w90"></div>
+              <div class="t" style="margin-top:8px;">Idiomas</div><div class="line w70"></div><div class="line w70"></div>
+              <div class="t" style="margin-top:8px;">Certificações</div><div class="line w90"></div><div class="line w70"></div>
+              <div style="margin-top:10px;"><span class="btn fill" style="display:block;text-align:center;"><span class="n">5</span>Enviar mensagem</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="foot"><div class="icons"><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="line w30"></div></div>
+      </div>
+      <div class="notes"><h3>Funcionalidade</h3><ol>
+        <li>Texto de apresentação.</li>
+        <li>Linha do tempo da experiência (Noesis/NOS e Capgemini), gerada com <code>v-for</code>.</li>
+        <li>Linha do tempo da formação (UTAD, Uninter, Rumos).</li>
+        <li>Painel lateral: dados profissionais, idiomas e certificações.</li>
+        <li>Abre a janela modal de contacto.</li>
+      </ol></div>
+    </div>
+  </section>
+
+  <!-- 4. O que faço -->
+  <section class="wf">
+    <h2>4. Página O que faço?</h2>
+    <p class="route">Rota: #/o-que-faco · Componente: OQueFacoPage</p>
+    <div class="layout">
+      <div class="screen">
+        <div class="chrome"><i></i><i></i><i></i><span class="url">index.html#/o-que-faco</span></div>
+        <div class="bar"><span class="t">Murilo.CV</span><div class="nav"><span>Início</span><span>Quem Sou Eu?</span><span class="on">O que faço?</span><span>Hobbies</span></div><span class="btn">☾</span></div>
+        <div class="content">
+          <div><div class="t">O que faço?</div><div class="line w50"></div></div>
+          <div class="g4">
+            <div class="box"><div class="ph" style="height:30px;width:30px;"><span class="n">1</span></div><div class="line w70"></div><div class="line w90"></div><div class="line w90"></div></div>
+            <div class="box"><div class="ph" style="height:30px;width:30px;"></div><div class="line w70"></div><div class="line w90"></div><div class="line w90"></div></div>
+            <div class="box"><div class="ph" style="height:30px;width:30px;"></div><div class="line w70"></div><div class="line w90"></div><div class="line w90"></div></div>
+            <div class="box"><div class="ph" style="height:30px;width:30px;"></div><div class="line w70"></div><div class="line w90"></div><div class="line w90"></div></div>
+          </div>
+          <div class="box">
+            <div class="t"><span class="n">2</span>Competências técnicas</div>
+            <div class="g3" style="margin-top:8px;">
+              <div><div class="lbl">Programação &amp; Backend</div><div class="chips"><span></span><span></span><span></span></div></div>
+              <div><div class="lbl">IA &amp; Automação</div><div class="chips"><span></span><span></span><span></span></div></div>
+              <div><div class="lbl">DevOps &amp; Ferramentas</div><div class="chips"><span></span><span></span><span></span><span></span></div></div>
+              <div><div class="lbl">Bases de Dados &amp; Web</div><div class="chips"><span></span><span></span><span></span></div></div>
+              <div><div class="lbl">Testes API &amp; Performance</div><div class="chips"><span></span><span></span><span></span><span></span></div></div>
+              <div><div class="lbl">Automação de Testes</div><div class="chips"><span></span><span></span><span></span></div></div>
+            </div>
+          </div>
+        </div>
+        <div class="foot"><div class="icons"><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="line w30"></div></div>
+      </div>
+      <div class="notes"><h3>Funcionalidade</h3><ol>
+        <li>Quatro cartões de áreas de atuação: Backend &amp; APIs, IA &amp; Automação, DevOps, Qualidade &amp; Performance.</li>
+        <li>Competências agrupadas por categoria, em etiquetas (tags), geradas a partir dos dados com <code>v-for</code>.</li>
+      </ol></div>
+    </div>
+  </section>
+
+  <!-- 5. Hobbies -->
+  <section class="wf">
+    <h2>5. Página Hobbies</h2>
+    <p class="route">Rota: #/hobbies · Componente: HobbiesPage</p>
+    <div class="layout">
+      <div class="screen">
+        <div class="chrome"><i></i><i></i><i></i><span class="url">index.html#/hobbies</span></div>
+        <div class="bar"><span class="t">Murilo.CV</span><div class="nav"><span>Início</span><span>Quem Sou Eu?</span><span>O que faço?</span><span class="on">Hobbies</span></div><span class="btn">☾</span></div>
+        <div class="content">
+          <div><div class="t">Hobbies</div><div class="line w50"></div></div>
+          <div class="g4">
+            <div class="box"><div class="ph" style="height:40px;"><span><span class="n">1</span>⚽</span></div><div class="line w70"></div><div class="line w90"></div><div class="lbl"><span class="n">2</span>Saber mais →</div></div>
+            <div class="box"><div class="ph" style="height:40px;">🎧</div><div class="line w70"></div><div class="line w90"></div><div class="lbl">Saber mais →</div></div>
+            <div class="box"><div class="ph" style="height:40px;">✈️</div><div class="line w70"></div><div class="line w90"></div><div class="lbl">Saber mais →</div></div>
+            <div class="box"><div class="ph" style="height:40px;">🎮</div><div class="line w70"></div><div class="line w90"></div><div class="lbl">Saber mais →</div></div>
+          </div>
+        </div>
+        <div class="foot"><div class="icons"><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="line w30"></div></div>
+      </div>
+      <div class="notes"><h3>Funcionalidade</h3><ol>
+        <li>Cartão por hobby: ícone, título e descrição curta.</li>
+        <li>Clicar no cartão abre a janela modal de detalhe (wireframe 7).</li>
+      </ol></div>
+    </div>
+  </section>
+
+  <!-- 6. Modal contacto -->
+  <section class="wf">
+    <h2>6. Janela modal — Contacto</h2>
+    <p class="route">Componentes: ModalBox + ContactForm · Abre a partir de "Contactar" / "Enviar mensagem"</p>
+    <div class="layout">
+      <div class="screen overlay" style="min-height:320px;">
+        <div class="chrome"><i></i><i></i><i></i><span class="url">index.html#/</span></div>
+        <div class="content"><div class="line w50"></div><div class="line w90"></div><div class="line w70"></div></div>
+        <div class="dialog">
+          <span class="x"><span>✕</span></span>
+          <div class="t">Contacte-me</div><div class="line w70"></div>
+          <div class="lbl"><span class="n">1</span>Nome</div><div class="input"></div>
+          <div class="lbl">Email</div><div class="input"></div>
+          <div class="lbl">Mensagem</div><div class="input tall"></div>
+          <div><span class="btn fill"><span class="n">2</span>Enviar</span></div>
+        </div>
+      </div>
+      <div class="notes"><h3>Funcionalidade</h3><ol>
+        <li>Campos obrigatórios ligados com <code>v-model</code> e validados antes do envio.</li>
+        <li>Ao enviar mostra uma mensagem de confirmação e fecha a janela 2 s depois.</li>
+        <li>Fecha com ✕, clicando fora da janela ou com a tecla Esc.</li>
+      </ol></div>
+    </div>
+  </section>
+
+  <!-- 7. Modal hobby -->
+  <section class="wf">
+    <h2>7. Janela modal — Detalhe do hobby</h2>
+    <p class="route">Componente: ModalBox · Abre ao clicar num cartão da página Hobbies</p>
+    <div class="layout">
+      <div class="screen overlay" style="min-height:260px;">
+        <div class="chrome"><i></i><i></i><i></i><span class="url">index.html#/hobbies</span></div>
+        <div class="content"><div class="g4"><div class="ph" style="height:80px;"></div><div class="ph" style="height:80px;"></div><div class="ph" style="height:80px;"></div><div class="ph" style="height:80px;"></div></div></div>
+        <div class="dialog">
+          <span class="x"><span>✕</span></span>
+          <div class="ph" style="width:48px;height:48px;"><span class="n">1</span></div>
+          <div class="t">Título do hobby</div>
+          <div class="line w90"></div><div class="line w90"></div><div class="line w50"></div>
+        </div>
+      </div>
+      <div class="notes"><h3>Funcionalidade</h3><ol>
+        <li>Mostra o ícone, o título e o texto completo do hobby selecionado (estado reativo partilhado).</li>
+        <li>Fecha com ✕, clicando fora da janela ou com a tecla Esc.</li>
+      </ol></div>
+    </div>
+  </section>
+
+  <!-- 8. Mobile -->
+  <section class="wf">
+    <h2>8. Versão mobile (menu)</h2>
+    <p class="route">Ecrãs com menos de 800 px de largura</p>
+    <div class="layout">
+      <div style="display:flex;gap:24px;flex-wrap:wrap;">
+        <div class="phone"><div class="screen">
+          <div class="bar" style="padding:6px 8px;"><span class="t">Murilo.CV</span><span class="btn" style="padding:1px 6px;"><span class="n">1</span>☰</span></div>
+          <div class="content" style="padding:10px;text-align:center;">
+            <div class="ph circle" style="width:70px;height:70px;margin:auto;">MB</div>
+            <div class="line w70" style="margin:6px auto;"></div><div class="line w90" style="margin:6px auto;"></div>
+            <div><span class="btn fill">Conhecer-me</span></div>
+          </div>
+          <div class="foot"><div class="icons"><i></i><i></i><i></i><i></i></div></div>
+        </div></div>
+        <div class="phone"><div class="screen">
+          <div class="bar" style="padding:6px 8px;"><span class="t">Murilo.CV</span><span class="btn" style="padding:1px 6px;">☰</span></div>
+          <div style="border-bottom:2px dashed var(--line);padding:8px;display:grid;gap:4px;">
+            <span class="n">2</span>
+            <div class="nav" style="flex-direction:column;"><span class="on">Início</span><span>Quem Sou Eu?</span><span>O que faço?</span><span>Hobbies</span></div>
+          </div>
+          <div class="content" style="padding:10px;"><div class="line w90"></div><div class="line w70"></div></div>
+        </div></div>
+      </div>
+      <div class="notes"><h3>Funcionalidade</h3><ol>
+        <li>O menu é substituído por um botão ☰.</li>
+        <li>Ao tocar, o menu abre-se na vertical e fecha automaticamente ao escolher uma página.</li>
+        <li>Os cartões e colunas passam a ocupar uma só coluna.</li>
+      </ol></div>
+    </div>
+  </section>
+</div>
+</body>
+</html>
